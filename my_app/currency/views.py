@@ -18,4 +18,6 @@ def get_contact_us(request):
             f'From: {item.name}, Topic: {item.email}, Text: {item.text} <br> <br>'
         )
 
+    fdsf = []
+
     return HttpResponse(result)
