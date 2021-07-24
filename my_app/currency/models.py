@@ -6,7 +6,9 @@ class ContactUs(models.Model):
     name = models.CharField(max_length=15)
     email = models.EmailField()
     text = models.CharField(max_length=300)
-    phone_number = models.PositiveIntegerField(max_length=12)
+
+
+""" phone_number = models.PositiveIntegerField()
     date = models.DateField()
     time = models.TimeField()
-    file = models.FileField()
+    file = models.FileField() """
