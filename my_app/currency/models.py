@@ -8,7 +8,7 @@ class ContactUs(models.Model):
     text = models.CharField(max_length=300)
 
 
-""" phone_number = models.PositiveIntegerField()
-    date = models.DateField()
-    time = models.TimeField()
-    file = models.FileField() """
+class RateUs(models.Model):
+    name = models.CharField(max_length=15)
+    email = models.EmailField()
+    grade = models.PositiveIntegerField()
