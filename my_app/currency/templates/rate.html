@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block main_content%}
+
+<table>
+    <colgroup>
+        <col style="width: 300px;">
+        <col style="width: 500px;">
+        <col style="width: 500px;">
+    </colgroup>
+    <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Grade</th>
+    </tr>
+    {% for rate in rate_list %}
+    <tr>
+        <td>{{rate.name}}</td>
+        <td>{{rate.email}}</td>
+        <td>{{rate.grade}}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock%}
