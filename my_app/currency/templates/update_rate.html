@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block main_content %}
+<br>
+<br>
+Update Rate
+<br>
+<br>
+<form method="POST">
+    {%csrf_token%}
+    {{form.as_p}}
+    <br>
+    <br>
+    <button type="submit">Send To Server</button>
+</form>
+{% endblock %}
