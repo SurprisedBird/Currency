@@ -14,13 +14,13 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 import debug_toolbar
-from currency.views import get_contact_us, rate_us
 from django.contrib import admin
 from django.urls import include, path
+from django.views.generic import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('__debug__/', include(debug_toolbar.urls)),
-    path('rate/', rate_us),
-    path('contact/', get_contact_us),
+    path('index/', TemplateView.as_view(template_name='index.html'), name='index'),
+    path('currency/', include('currency.urls')),
 ]

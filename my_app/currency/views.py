@@ -1,12 +1,18 @@
-from django.http import HttpResponse
-from django.shortcuts import render
+from django.conf import settings
+from django.core.mail import send_mail
+from django.http.response import HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render
+from django.urls import reverse_lazy
+from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
+                                  TemplateView, UpdateView)
 
-from currency.models import ContactUs, RateUs
+from currency.forms import RateForm, SourceForm
+from currency.models import ContactUs, Rate, Source
+from currency.tasks import contact_us
 
 
-# Create your views here.
-def hello_world(request):
-    return HttpResponse('Hello world')
+class IndexTemplateView(TemplateView):
+    template_name = 'index.html'
 
 
 def get_contact_us(request):
@@ -19,11 +25,84 @@ def get_contact_us(request):
     return render(request, "contact.html", context=context)
 
 
-def rate_us(request):
-    rate = RateUs.objects.all()
+class RateListView(ListView):
+    queryset = Rate.objects.all()
+    template_name = 'rate_list.html'
 
-    context = {
-        "rate_list": rate
-    }
 
-    return render(request, "rate.html", context=context)
+class CreateRateViev(CreateView):
+    queryset = Rate.objects.all()
+    form_class = RateForm
+    success_url = reverse_lazy('currency:rate-list')
+    template_name = 'create_rate.html'
+
+
+class DeleteRateView(DeleteView):
+    queryset = Rate.objects.all()
+    success_url = reverse_lazy('currency:rate-list')
+    template_name = 'delete_rate.html'
+
+
+class UpdateRateView(UpdateView):
+    queryset = Rate.objects.all()
+    form_class = RateForm
+    success_url = reverse_lazy('currency:rate-list')
+    template_name = 'update_rate.html'
+
+
+class DetailRateView(DetailView):
+    queryset = Rate.objects.all()
+    template_name = 'rate_details.html'
+
+
+class SourceListView(ListView):
+    queryset = Source.objects.all()
+    template_name = 'source_list.html'
+
+
+class CreateSourseViev(CreateView):
+    queryset = Source.objects.all()
+    form_class = SourceForm
+    success_url = reverse_lazy('currency:source-list')
+    template_name = 'create_source.html'
+
+
+class DeleteSorceView(DeleteView):
+    queryset = Source.objects.all()
+    success_url = reverse_lazy('currency:source-list')
+    template_name = 'delete_source.html'
+
+
+class UpdateSourseView(UpdateView):
+    queryset = Source.objects.all()
+    form_class = SourceForm
+    success_url = reverse_lazy('currency:source-list')
+    template_name = 'update_source.html'
+
+
+class DetailSourseView(DetailView):
+    queryset = Source.objects.all()
+    template_name = 'sourсe_details.html'
+
+
+class ContactUsCreateViev(CreateView):
+    model = ContactUs
+    success_url = reverse_lazy('index')
+    template_name = 'create_contactus.html'
+    fields = ('email_to', 'subject', 'body')
+
+    def form_invalid(self, form):
+        return super().form_invalid(form)
+
+    def form_valid(self, form):
+        subject = form.cleaned_data['subject']
+        body = form.cleaned_data['body']
+        email_to = form.cleaned_data['email_to']
+
+        full_email_body = f'''
+        Email To: {email_to}
+        Body: {body}
+        '''
+
+        contact_us.apply_async(args=(subject,), kwargs={'body': full_email_body})
+        return super().form_valid(form)
