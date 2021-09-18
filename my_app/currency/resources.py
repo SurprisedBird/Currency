@@ -1,6 +1,6 @@
 from import_export import resources
 
-from currency.models import Rate, Source
+from currency.models import Rate, ResponseLog, Source
 
 
 class RateResource(resources.ModelResource):
@@ -22,4 +22,18 @@ class SourceResource(resources.ModelResource):
         fields = (
             'source_url',
             'name',
+        )
+
+
+class ResponseLogResource(resources.ModelResource):
+
+    class Meta:
+        model = ResponseLog
+        fields = (
+            'id',
+            'created',
+            'status_code',
+            'path',
+            'response_time',
+            'request_method',
         )

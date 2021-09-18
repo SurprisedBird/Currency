@@ -26,7 +26,7 @@ def get_contact_us(request):
 
 
 class RateListView(ListView):
-    queryset = Rate.objects.all()
+    queryset = Rate.objects.all().order_by('-created')
     template_name = 'rate_list.html'
 
 

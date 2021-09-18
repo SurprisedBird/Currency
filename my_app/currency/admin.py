@@ -2,8 +2,9 @@ from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
 from rangefilter.filters import DateRangeFilter
 
-from currency.models import ContactUs, Rate, Source
-from currency.resources import RateResource, SourceResource
+from currency.models import ContactUs, Rate, ResponseLog, Source
+from currency.resources import (RateResource, ResponseLogResource,
+                                SourceResource)
 
 
 # Register your models here.
@@ -61,6 +62,36 @@ class ContactUsAdmin(admin.ModelAdmin):
         return False
 
 
+class ResponseLogAdmin(admin.ModelAdmin):
+    resourse_class = ResponseLogResource
+
+    list_display = (
+        'id',
+        'response_time',
+        'path',
+        'status_code',
+        'created',
+        'request_method',
+    )
+    list_filter = (
+        'id',
+        ('created', DateRangeFilter),
+    )
+    search_fields = (
+        'status_code',
+    )
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_add_permission(self, request):
+        return False
+
+
 admin.site.register(Rate, RateAdmin)
 admin.site.register(Source, SourceAdmin)
 admin.site.register(ContactUs, ContactUsAdmin)
+admin.site.register(ResponseLog, ResponseLogAdmin)
