@@ -14,6 +14,9 @@ makemigrations:
 shell:
 	$(manage_py) shell_plus --print-sql
 
+show_urls:
+	$(manage_py) show_urls
+
 worker:
 	cd my_app && celery -A settings worker -l info --autoscale=0,10
 
