@@ -15,3 +15,9 @@ class User(AbstractUser):
     )
 
     email = models.EmailField('email_addres',  blank=False, null=False, unique=True)
+
+    # def save(save, *args, **kwargs):
+    #     if not self.username:
+    #         self.username = str(uuid.uuid4())
+
+    #     super().save(*args, **kwargs)
