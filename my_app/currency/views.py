@@ -26,7 +26,7 @@ def get_contact_us(request):
 
 
 class RateListView(ListView):
-    queryset = Rate.objects.all().order_by('-created')
+    queryset = Rate.objects.all().select_related('source').order_by('-created')
     template_name = 'rate_list.html'
 
 
@@ -60,7 +60,7 @@ class SourceListView(ListView):
     template_name = 'source_list.html'
 
 
-class CreateSourseViev(CreateView):
+class CreateSourceViev(CreateView):
     queryset = Source.objects.all()
     form_class = SourceForm
     success_url = reverse_lazy('currency:source-list')
@@ -73,14 +73,14 @@ class DeleteSorceView(DeleteView):
     template_name = 'delete_source.html'
 
 
-class UpdateSourseView(UpdateView):
+class UpdateSourceView(UpdateView):
     queryset = Source.objects.all()
     form_class = SourceForm
     success_url = reverse_lazy('currency:source-list')
     template_name = 'update_source.html'
 
 
-class DetailSourseView(DetailView):
+class DetailSourceView(DetailView):
     queryset = Source.objects.all()
     template_name = 'sourсe_details.html'
 

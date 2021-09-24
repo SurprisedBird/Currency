@@ -11,17 +11,19 @@ class ContactUs(models.Model):
     created = models.DateTimeField(auto_now=True)
 
 
+class Source(models.Model):
+    source_url = models.CharField(max_length=255)
+    name = models.CharField(max_length=64)
+    code_name = models.CharField(max_length=24, unique=True, editable=False)
+
+
 class Rate(models.Model):
     sale = models.DecimalField(max_digits=5, decimal_places=2, default=0.0)
     buy = models.DecimalField(max_digits=5, decimal_places=2, default=0.0)
     created = models.DateTimeField(auto_now_add=True)
-    source = models.CharField(max_length=32)
-    curr_type = models.CharField(max_length=3, choices=model_choices.RATE_TYPES)
-
-
-class Source(models.Model):
-    source_url = models.CharField(max_length=255)
-    name = models.CharField(max_length=64)
+    source = models.ForeignKey(Source, related_name='rates', on_delete=models.CASCADE)
+    curr_type = models.CharField(max_length=3, choices=model_choices.RATE_TYPES,
+                                 blank=False, null=False, default=model_choices.TYPE_USD)
 
 
 class ResponseLog(models.Model):
