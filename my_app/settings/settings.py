@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rangefilter',
     'import_export',
     'silk',
+    'crispy_forms',
 
 ]
 
@@ -130,6 +131,14 @@ AUTH_USER_MODEL = 'accounts.User'
 
 STATIC_URL = '/static/'
 
+
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / '..' / 'static' / 'media'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
@@ -144,6 +153,8 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'tesst.testoff@gmail.com'
 EMAIL_HOST_PASSWORD = 'WQwkVAqUmf7k8Ym'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 CELERY_BROKER_URL = 'amqp://localhost'
 
