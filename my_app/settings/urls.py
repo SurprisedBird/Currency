@@ -10,7 +10,7 @@ urlpatterns = [
     path('index/', TemplateView.as_view(template_name='index.html'), name='index'),
     path('currency/', include('currency.urls')),
     path('accounts/', include('accounts.urls')),
-
+    path('api/', include('api.v1.urls')),
     path('auth/', include('django.contrib.auth.urls')),
 ]
 urlpatterns += [url(r'^silk/', include('silk.urls', namespace=' '))]
