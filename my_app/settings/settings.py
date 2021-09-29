@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rangefilter',
     'import_export',
     'silk',
+    'rest_framework',
 
 ]
 
