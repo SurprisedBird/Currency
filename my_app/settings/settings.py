@@ -71,7 +71,8 @@ REST_FRAMEWORK = {
     #     'rest_framework.permissions.IsAuthenticated',
     # ),
     'DEFAULT_THROTTLE_RATES': {
-        'rates_anon_trottle': '20/min', }
+        'rates_anon_trottle': '20/min',
+        'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']}
 }
 
 SIMPLE_JWT = {

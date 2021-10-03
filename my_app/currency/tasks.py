@@ -21,7 +21,7 @@ def contact_us(subject, body):
         subject,
         body,
         settings.EMAIL_HOST_USER,
-        ['irinayavors@gmail.com'],
+        [settings.SUPPORT_EMAIL],
         fail_silently=False,
     )
 

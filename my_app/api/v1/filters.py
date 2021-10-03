@@ -1,5 +1,6 @@
-from currency.models import Rate
+from currency.models import ContactUs, Rate
 from django_filters import rest_framework as filters
+from rest_framework import fields
 
 
 class RateFilter(filters.FilterSet):
@@ -12,3 +13,13 @@ class RateFilter(filters.FilterSet):
             # 'type': ('in', ),
             # 'created': ('date', 'lte', 'gte'),
         }
+
+
+class ContactUsFilter(filters.FilterSet):
+
+    class Meta:
+        model = ContactUs
+        fields = {'email_to': ('exact', 'istartswith'),
+                  'subject': ('exact', 'istartswith'),
+                  'body': ('exact', 'istartswith'),
+                  'created': ('date', 'lte', 'gte'), }
