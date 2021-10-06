@@ -26,7 +26,7 @@ beat:
 superuser:
 	$(manage_py) createsuperuser
 pytest:
-	pytest ./my_app/tests/ --cov=app --cov-report html && coverage report --fail-under=74
+	pytest ./my_app/tests/ --cov=my_app --cov-report html && coverage report --fail-under=74
 
 show-coverage:  ## open coverage HTML report in default browser
 	python3 -c "import webbrowser; webbrowser.open('.pytest_cache/coverage/index.html')"
