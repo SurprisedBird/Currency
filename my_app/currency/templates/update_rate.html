@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load crispy_forms_tags %}
 {% block main_content %}
 <br>
 <br>
@@ -8,7 +8,7 @@ Update Rate
 <br>
 <form method="POST">
     {%csrf_token%}
-    {{form.as_p}}
+    {{ form|crispy }}
     <br>
     <br>
     <button type="submit">Send To Server</button>
