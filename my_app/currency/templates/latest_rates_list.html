@@ -2,27 +2,26 @@
 
 {% block main_content %}
 
-{% for object in object_list %}
-Id: {{ object.id }}<br>
-Name: {{ object.name }}<br>
+<a href="{% url 'currency:create-rate' %}">Create Rate</a>
 
-Related Rates
 <table class="table table-striped">
+
     <tr>
         <th>ID</th>
         <th>Sale</th>
         <th>Buy</th>
-
         <th>Type</th>
+        <th>Source</th>
         <th>Actions</th>
     </tr>
 
-    {% for rate in object.rates.all %}
+    {% for rate in rate_list %}
     <tr>
         <td>{{ rate.id }}</td>
         <td>{{ rate.sale }}</td>
         <td>{{ rate.buy }}</td>
         <td>{{ rate.get_curr_type_display }}</td>
+        <td><a href="{% url 'currency:source-details' rate.source_id %}">{{ rate.source.name }}</a></td>
         <td>
             <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
@@ -39,5 +38,5 @@ Related Rates
     </tr>
     {% endfor %}
 </table>
-{% endfor %}
+
 {% endblock %}

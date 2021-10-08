@@ -1,13 +1,17 @@
 from django.conf import settings
+from django.core.cache import cache
 from django.core.mail import send_mail
+from django.forms.models import model_to_dict
 from django.http.response import HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse_lazy
 from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   TemplateView, UpdateView)
 
+from currency import model_choices as mch
 from currency.forms import RateForm, SourceForm
 from currency.models import ContactUs, Rate, Source
+from currency.services import get_latest_rates
 from currency.tasks import contact_us
 
 
@@ -106,3 +110,25 @@ class ContactUsCreateViev(CreateView):
 
         contact_us.apply_async(args=(subject,), kwargs={'body': full_email_body})
         return super().form_valid(form)
+
+
+class LatestRatesView(TemplateView):
+    template_name = 'latest_rates_list.html'
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+        key = 'currency::views::LatestRatesView::latest-rates'
+        latest_rates = cache.get(key)
+        if latest_rates is not None:
+            return latest_rates
+
+        latest_rates = get_latest_rates()
+        cache.set(key, latest_rates, 15)
+
+        context[latest_rates] = latest_rates
+
+        print(context)
+        context['rate_list'] = get_latest_rates()
+        print("CONTEXT2:", context)
+        return context

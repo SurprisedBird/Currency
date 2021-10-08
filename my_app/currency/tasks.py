@@ -2,10 +2,12 @@ from decimal import Decimal
 
 import requests
 from celery import shared_task
+from django.core.cache import cache
 from django.core.mail import send_mail
 from settings import settings
 
 from currency import consts, model_choices
+from currency.services import get_latest_rates
 
 
 @shared_task
@@ -48,3 +50,6 @@ def parse_privatbank():
 
             if last_rate is None or last_rate.sale != sale or last_rate.buy != buy:
                 Rate.objects.create(curr_type=curr_type, sale=sale, buy=buy, source=source)
+
+                cache.delete(consts.CACHE_KEY_LATEST_RATES)
+                get_latest_rates()
