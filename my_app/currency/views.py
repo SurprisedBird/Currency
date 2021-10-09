@@ -1,3 +1,5 @@
+from urllib.parse import urlencode
+
 from django.conf import settings
 from django.core.mail import send_mail
 from django.http.response import HttpResponseRedirect, JsonResponse
@@ -5,7 +7,9 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import reverse_lazy
 from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   TemplateView, UpdateView)
+from django_filters.views import FilterView
 
+from currency.filters import RateFilter
 from currency.forms import RateForm, SourceForm
 from currency.models import ContactUs, Rate, Source
 from currency.tasks import contact_us
@@ -25,9 +29,23 @@ def get_contact_us(request):
     return render(request, "contact.html", context=context)
 
 
-class RateListView(ListView):
+class RateListView(FilterView):
     queryset = Rate.objects.all().select_related('source').order_by('-created')
     template_name = 'rate_list.html'
+    paginate_by = 5
+    filterset_class = RateFilter
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        get_parameters = {}
+        for key, value in self.request.GET.items():
+            if key != 'page':
+                get_parameters[key] = value
+
+        context['pagination_params'] = urlencode(get_parameters)
+
+        return context
 
 
 class CreateRateViev(CreateView):

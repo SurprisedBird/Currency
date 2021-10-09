@@ -25,8 +25,7 @@ class User(AbstractUser):
 
     email = models.EmailField('email_addres',  blank=False, null=False, unique=True)
 
-    # def save(save, *args, **kwargs):
-    #     if not self.username:
-    #         self.username = str(uuid.uuid4())
-
+    # def save(self, *args, **kwargs):
+    #     if self.phone:
+    #         self.phone = ''.join(char for char in self.phone if char.isdigit())
     #     super().save(*args, **kwargs)
