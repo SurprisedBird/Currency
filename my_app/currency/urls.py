@@ -19,4 +19,5 @@ urlpatterns = [
     path('source/update/<int:pk>/', UpdateSourceView.as_view(), name='update-source'),
     path('source/delete/<int:pk>/', DeleteSorceView.as_view(), name='delete-source'),
     path('contactus/create/', ContactUsCreateViev.as_view(), name='contactus-create'),
+    path('rate/latest/', LatestRatesView.as_view(), name='rates-last'),
 ]
