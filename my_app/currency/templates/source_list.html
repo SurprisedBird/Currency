@@ -1,39 +1,43 @@
 {% extends 'base.html' %}
 
+{% block main_content %}
 
-{% block main_content%}
+{% for object in object_list %}
+Id: {{ object.id }}<br>
+Name: {{ object.name }}<br>
 
-<br>
-<br>
-<br>
-
-<table>
-    <colgroup>
-        <col style="width: 100px;">
-        <col style="width: 300px;">
-        <col style="width: 300px;">
-    </colgroup>
+Related Rates
+<table class="table table-striped">
     <tr>
-        <th>Id</th>
-        <th>Name</th>
-        <th>URL</th>
-    </tr>
-    {% for source in source_list %}
-    <tr>
-        <td>{{source.id}}</td>
-        <td>{{source.name}}</td>
-        <td>{{source.source_url}}</td>
+        <th>ID</th>
+        <th>Sale</th>
+        <th>Buy</th>
 
-        <td><a href="{% url 'currency:delete-source' pk=source.pk %}">Delete</a></td>
-        <td><a href="{% url 'currency:update-source' pk=source.pk %}">Update</a></td>
-        <td><a href="{% url 'currency:source-details' pk=source.pk %}">Details</a></td>
+        <th>Type</th>
+        <th>Actions</th>
     </tr>
 
+    {% for rate in object.rates.all %}
+    <tr>
+        <td>{{ rate.id }}</td>
+        <td>{{ rate.sale }}</td>
+        <td>{{ rate.buy }}</td>
+        <td>{{ rate.get_curr_type_display }}</td>
+        <td>
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Actions
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="{% url 'currency:rate-details' rate.pk %}">Details</a>
+                    <a class="dropdown-item" href="{% url 'currency:update-rate' rate.pk %}">Update</a>
+                    <a class="dropdown-item" href="{% url 'currency:delete-rate' rate.pk %}">Delete</a>
+                </div>
+            </div>
+        </td>
+    </tr>
     {% endfor %}
 </table>
-<br>
-<br>
-<a href="{% url 'currency:create-source'%}">Create Source</a>
-<br>
-<br>
+{% endfor %}
 {% endblock %}
