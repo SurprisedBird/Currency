@@ -11,8 +11,8 @@ from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   TemplateView, UpdateView)
 from django_filters.views import FilterView
 
-from currency.filters import RateFilter
 from currency import model_choices as mch
+from currency.filters import RateFilter
 from currency.forms import RateForm, SourceForm
 from currency.models import ContactUs, Rate, Source
 from currency.services import get_latest_rates
@@ -33,8 +33,7 @@ def get_contact_us(request):
     return render(request, "contact.html", context=context)
 
 
-
-class RateListView(ListView):
+class RateListView(FilterView):
     queryset = Rate.objects.all().defer('created').select_related('source').order_by('-created')
     template_name = 'rate_list.html'
     paginate_by = 5
