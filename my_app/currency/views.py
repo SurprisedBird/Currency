@@ -118,17 +118,5 @@ class LatestRatesView(TemplateView):
     def get_context_data(self, **kwargs):
 
         context = super().get_context_data(**kwargs)
-        key = 'currency::views::LatestRatesView::latest-rates'
-        latest_rates = cache.get(key)
-        if latest_rates is not None:
-            return latest_rates
-
-        latest_rates = get_latest_rates()
-        cache.set(key, latest_rates, 15)
-
-        context[latest_rates] = latest_rates
-
-        print(context)
         context['rate_list'] = get_latest_rates()
-        print("CONTEXT2:", context)
         return context
