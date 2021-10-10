@@ -8,6 +8,7 @@
 
 .main {
     flex:1;
+
 }
 
 .pagination > li > a
@@ -37,4 +38,5 @@
 {
     background-color: #5A4181 !Important;
     border: solid 1px #5A4181;
+
 }
